@@ -3,7 +3,7 @@
 Dispositivo para el armado de tragos
 
 Integrantes: 
-  - Ariel
+  - Buzzoni, Ariel
   - Corno, Ezequiel
   - Izaguirre, Alan
   - Ramos, Micaela
