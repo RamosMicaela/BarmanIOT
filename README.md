@@ -8,6 +8,18 @@ Con el BarmanIOT sos capaz de armar un trago con las medidas perfectas sin tener
 3) Mediante el indicador LED de proporciones te vas guiando para hacer tu trago perfecto.
 Listo para tomar!
 
+Además, gracias al identificador del vaso vas a poder saber el alcohol en sangre que vas a tener con cada trago que te hagas, así sabés cuando dejar de tomar.
+
+# Sensores:
+  - RFID
+  - Balanza
+  
+# Actuadores: 
+  - Indicador led
+  - Display
+  - Alarma
+
+
 # Integrantes: 
   - Buzzoni Biale, Ariel DNI: 41.138.235 
   - Corno, Ezequiel DNI: 39.430.288
