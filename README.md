@@ -20,7 +20,7 @@ Además, gracias al identificador del vaso vas a poder saber el alcohol en sangr
   - Indicador led
   - Display
   - Alarma
-
+  - Botones
 
 # Integrantes: 
   - Buzzoni Biale, Ariel DNI: 41.138.235 
