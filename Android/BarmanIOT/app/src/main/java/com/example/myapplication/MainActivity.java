@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void onClickTragos(View v){
+        Intent i = new Intent(this, TragosActivity.class);
+        startActivity(i);
+    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
