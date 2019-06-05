@@ -1,11 +1,11 @@
 package com.example.myapplication;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.myapplication.adapters.TragosAdapter;
+import com.example.myapplication.adapters.TragosPagerAdapter;
 import com.example.myapplication.model.Trago;
 
 public class TragosActivity extends AppCompatActivity {
@@ -26,21 +26,9 @@ public class TragosActivity extends AppCompatActivity {
         myDataset[3] = trago;
         myDataset[4] = trago;
 
-        recyclerView = (RecyclerView) findViewById(R.id.tragos_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        LinearLayoutManager llm =  new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new TragosAdapter(myDataset);
-        recyclerView.setAdapter(mAdapter);
-
+        ViewPager viewPager = (ViewPager) findViewById(R.id.tragos_view_pager);
+        viewPager.setAdapter(new TragosPagerAdapter(this));
 
     }
 }
