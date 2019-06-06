@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
@@ -19,16 +20,16 @@ public class TragosPagerAdapter extends PagerAdapter {
     private Trago[] mTragos;
     public TragosPagerAdapter(Context context) {
         mContext = context;
-        Trago trago = new Trago("Fernet con Coca", .5f);
+        Trago trago = new Trago("Fernet con Coca", .5f, R.drawable.ic_fernet);
         mTragos = new Trago[5];
         mTragos[0] = trago;
-        trago = new Trago("Gancia con Sprite", .4f);
+        trago = new Trago("Gancia con Sprite", .4f, R.drawable.ic_gancia);
         mTragos[1] = trago;
-        trago = new Trago("Destornillador", .3f);
+        trago = new Trago("Destornillador", .3f, R.drawable.ic_destornillador);
         mTragos[2] = trago;
-        trago = new Trago("Cuba Libre", .2f);
+        trago = new Trago("Cuba Libre", .2f, R.drawable.ic_champagne);
         mTragos[3] = trago;
-        trago = new Trago("Banana Mama", .1f);
+        trago = new Trago("Banana Mama", .1f, R.drawable.ic_daikiri);
         mTragos[4] = trago;
     }
 
@@ -48,8 +49,10 @@ public class TragosPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup collection, int position) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.page_trago, collection, false);
+
         ((TextView)layout.findViewById(R.id.nombreTextView)).setText(mTragos[position].getNombre());
         ((TextView)layout.findViewById(R.id.graduacionTextView)).setText(String.format(Locale.getDefault(),"%.2f",mTragos[position].getGraduacion()));
+        ((ImageView)layout.findViewById(R.id.tragoImage)).setImageResource(mTragos[position].getmIcon());
         collection.addView(layout);
         return layout;
     }

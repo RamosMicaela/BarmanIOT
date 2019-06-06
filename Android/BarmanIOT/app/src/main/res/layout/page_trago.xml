@@ -12,7 +12,7 @@
         android:id="@+id/nombreTextView"
         android:layout_width="415dp"
         android:layout_height="53dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Fernet"
         android:textColor="#fff"
@@ -59,9 +59,9 @@
             android:id="@+id/tragoImage"
             android:layout_width="186dp"
             android:layout_height="match_parent"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             android:padding="20dp"
-            app:srcCompat="@drawable/ic_fernet"
+            app:srcCompat="@drawable/ic_daikiri"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="459dp" />
     </android.support.v7.widget.CardView>
