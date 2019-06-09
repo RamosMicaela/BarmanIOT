@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.Trago;
+import com.example.myapplication.model.Ingrediente;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -19,27 +20,60 @@ import java.util.Locale;
 public class TragosPagerAdapter extends PagerAdapter {
     private Context mContext;
     private ArrayList<Trago> mTragos;
+    private ArrayList<Ingrediente> mIngredientes;
+
     public TragosPagerAdapter(Context context) {
         mContext = context;
         mTragos = new ArrayList<>();
+        mIngredientes = new ArrayList<>();
 
-        Trago trago = new Trago("Sucas Lecchi", 0.0f, R.drawable.ic_water);
+        mIngredientes.add(new Ingrediente("Agua", 100, "%"));
+        Trago trago = new Trago("Sucas Lecchi", 0.0f, R.drawable.ic_water, mIngredientes);
         mTragos.add(trago);
+        mIngredientes.clear();
 
-        trago = new Trago("Fernet con Coca", .5f, R.drawable.ic_fernet);
+        mIngredientes.add(new Ingrediente("Hielo", 20, "%"));
+        mIngredientes.add(new Ingrediente("Fernet", 20, "%"));
+        mIngredientes.add(new Ingrediente("Coca Cola", 60, "%"));
+        trago = new Trago("Fernet con Coca", .5f, R.drawable.ic_fernet, mIngredientes);
         mTragos.add(trago);
+        mIngredientes.clear();
 
-        trago = new Trago("Destornillador", .3f, R.drawable.ic_destornillador);
+        mIngredientes.add(new Ingrediente("Hielo", 0, "Cantidad necesaria"));
+        mIngredientes.add(new Ingrediente("Vodka", 30, "%"));
+        mIngredientes.add(new Ingrediente("Jugo de naranja", 70, "%"));
+        trago = new Trago("Destornillador", .3f, R.drawable.ic_destornillador, mIngredientes);
         mTragos.add(trago);
+        mIngredientes.clear();
 
-        trago = new Trago("Gancia con Sprite", .4f, R.drawable.ic_gancia);
+        mIngredientes.add(new Ingrediente("Gancia", 80, "Cantidad necesaria"));
+        mIngredientes.add(new Ingrediente("Sprite", 20, "%"));
+        mIngredientes.add(new Ingrediente("Limón", 0, "Cantidad necesaria"));
+        mIngredientes.add(new Ingrediente("Azúcar", 0, "Cantidad necesaria"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "Cantidad necesaria"));
+        trago = new Trago("Gancia con Sprite", .4f, R.drawable.ic_gancia, mIngredientes);
         mTragos.add(trago);
+        mIngredientes.clear();
 
-        trago = new Trago("Cuba Libre", .2f, R.drawable.ic_wisky);
+        mIngredientes.add(new Ingrediente("Coca Cola", 20, "%"));
+        mIngredientes.add(new Ingrediente("Ron dorado", 20, "%"));
+        mIngredientes.add(new Ingrediente("Rodajas de lima", 2, "Unidades"));
+        mIngredientes.add(new Ingrediente("Jugo", 0.5, "Lima"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "Cantidad necesaria"));
+        trago = new Trago("Cuba Libre", .2f, R.drawable.ic_wisky, mIngredientes);
         mTragos.add(trago);
+        mIngredientes.clear();
 
-        trago = new Trago("Banana Mama", .1f, R.drawable.ic_daikiri);
+        mIngredientes.add(new Ingrediente("Ron blanco", 2, "oz"));
+        mIngredientes.add(new Ingrediente("Jarabe de piña", 2, "oz"));
+        mIngredientes.add(new Ingrediente("Crema de coco", 1, "oz"));
+        mIngredientes.add(new Ingrediente("Agua mineral", 2, "oz"));
+        mIngredientes.add(new Ingrediente("Banana", 1, "Unidad"));
+        mIngredientes.add(new Ingrediente("Granadina", 0, "A gusto"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "A gusto"));
+        trago = new Trago("Banana Mama", .1f, R.drawable.ic_daikiri, mIngredientes);
         mTragos.add(trago);
+        mIngredientes.clear();
     }
 
     @Override

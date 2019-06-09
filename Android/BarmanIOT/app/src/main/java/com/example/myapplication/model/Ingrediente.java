@@ -2,11 +2,11 @@ package com.example.myapplication.model;
 
 public class Ingrediente {
     private String nombre;
-    private float cantidad;
+    private double cantidad;
     private String unidad;
 
 
-    public Ingrediente(String nombre, float cantidad, String unidad) {
+    public Ingrediente(String nombre, double cantidad, String unidad) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.unidad = unidad;
@@ -16,7 +16,7 @@ public class Ingrediente {
         return nombre;
     }
 
-    public float getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
 
