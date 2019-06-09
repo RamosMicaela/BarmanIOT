@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E2E2E">
-
+    android:background="@drawable/ic_background_gradient_violeta">
 
     <TextView
         android:id="@+id/nombreTextView"
         android:layout_width="415dp"
         android:layout_height="53dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="Fernet"
         android:textColor="#fff"
         android:textSize="40sp"
         app:fontFamily="@font/cabin_medium"
+        app:layout_constraintBottom_toTopOf="@+id/graduacionTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,71 +27,48 @@
         android:id="@+id/graduacionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="77dp"
         android:text="%"
         android:textColor="#fff"
-        android:textSize="14sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreTextView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/imageContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="182dp"
+    <ImageView
+        android:id="@+id/tragoImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:padding="100dp"
-        app:cardCornerRadius="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toTopOf="@+id/ingredientesContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/graduacionTextView">
-
-        <ImageView
-            android:id="@+id/tragoImage"
-            android:layout_width="186dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/todo"
-            android:padding="20dp"
-            app:srcCompat="@drawable/ic_daikiri"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="459dp" />
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/ingredientesContainer"
-        android:layout_width="363dp"
-        android:layout_height="337dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="32dp"
-        app:cardBackgroundColor="#424242"
-        app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graduacionTextView"
+        app:layout_constraintVertical_bias="0.065"
+        app:srcCompat="@drawable/ic_champagne" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="426dp"
+        android:layout_height="336dp"
+        android:layout_marginTop="321dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
-            android:id="@+id/ingredientesTitle"
+            android:id="@+id/ingredientsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="10dp"
             android:text="Ingredientes"
-            android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textColor="#000"
+            android:textSize="30sp"
             app:fontFamily="@font/cabin_medium" />
     </android.support.v7.widget.CardView>
 
