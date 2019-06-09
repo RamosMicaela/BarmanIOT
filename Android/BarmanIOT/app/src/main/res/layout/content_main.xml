@@ -12,7 +12,7 @@
 
     <Button
         android:id="@+id/tragos"
-        style="@style/Widget.AppCompat.Button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="300dp"
         android:layout_height="106dp"
         android:layout_marginStart="56dp"
@@ -21,10 +21,10 @@
         android:layout_marginEnd="27dp"
         android:layout_marginRight="27dp"
         android:layout_marginBottom="90dp"
-        android:lineSpacingExtra="18sp"
         android:onClick="onClickTragos"
         android:text="Empecemos"
-        android:textAppearance="@android:style/TextAppearance.WindowTitle"
+        android:textAppearance="@android:style/TextAppearance.Widget.TextView"
+        android:textColor="#fff"
         android:textSize="30sp"
         android:typeface="sans"
         app:layout_constraintBottom_toBottomOf="parent"
