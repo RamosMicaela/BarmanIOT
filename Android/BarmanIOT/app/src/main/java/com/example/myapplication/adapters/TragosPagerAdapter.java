@@ -3,6 +3,7 @@ package com.example.myapplication.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,8 +98,9 @@ public class TragosPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup collection, int position) {
+    public Object instantiateItem(@NonNull ViewGroup collection, int position) {
         sIngredientes = new ArrayList<>();
         sIngredientesCantidad = new ArrayList<>();
         sIngredientesUnidad = new ArrayList<>();
@@ -108,10 +110,15 @@ public class TragosPagerAdapter extends PagerAdapter {
         ((TextView)layout.findViewById(R.id.nombreTextView)).setText(mTragos.get(position).getNombre());
         ((TextView)layout.findViewById(R.id.graduacionTextView)).setText(String.format(Locale.getDefault(),"%.2f",mTragos.get(position).getGraduacion()));
         ((ImageView)layout.findViewById(R.id.tragoImage)).setImageResource(mTragos.get(position).getmIcon());
-        final ListView lv = layout.findViewById(R.id.ingredientes);
-        final ListView lvCantidad = layout.findViewById(R.id.cantidad);
-        final ListView lvUnidad = layout.findViewById(R.id.unidad);
+//        final ListView lv = layout.findViewById(R.id.ingredientes);
+//        final ListView lvCantidad = layout.findViewById(R.id.cantidad);
+//        final ListView lvUnidad = layout.findViewById(R.id.unidad);
+        RecyclerView recyclerView = (RecyclerView)layout.findViewById(R.id.ingredientesRecyclerView);
         ArrayList<Ingrediente> ingredientes = mTragos.get(position).getIngredientes();
+
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(layout.getContext());
+        recyclerView.setLayoutManager(llm);
 
         for (Ingrediente ingrediente : ingredientes) {
             String nombre = ingrediente.getNombre();
@@ -122,20 +129,23 @@ public class TragosPagerAdapter extends PagerAdapter {
             sIngredientesUnidad.add(unidad);
         }
 
-        ingNombreAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientes);
-        ingCantidadAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientesCantidad);
-        ingUnidadAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientesUnidad);
+        IngredientesRecyclerViewAdapter adapter = new IngredientesRecyclerViewAdapter(ingredientes);
+        recyclerView.setAdapter(adapter);
 
-        lv.setAdapter(ingNombreAdapter);
-        lvCantidad.setAdapter(ingCantidadAdapter);
-        lvUnidad.setAdapter(ingUnidadAdapter);
+//        ingNombreAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientes);
+//        ingCantidadAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientesCantidad);
+//        ingUnidadAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientesUnidad);
+
+//        lv.setAdapter(ingNombreAdapter);
+//        lvCantidad.setAdapter(ingCantidadAdapter);
+//        lvUnidad.setAdapter(ingUnidadAdapter);
 
         collection.addView(layout);
         return layout;
     }
 
     @Override
-    public void destroyItem(ViewGroup collection, int position, Object view) {
+    public void destroyItem(@NonNull ViewGroup collection, int position, @NonNull Object view) {
         collection.removeView((View) view);
     }
 

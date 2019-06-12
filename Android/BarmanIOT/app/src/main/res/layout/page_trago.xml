@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background_gradient_violeta">
 
     <TextView
         android:id="@+id/nombreTextView"
-        android:layout_width="415dp"
-        android:layout_height="53dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="Fernet"
         android:textColor="#fff"
         android:textSize="40sp"
         app:fontFamily="@font/cabin_medium"
-        app:layout_constraintBottom_toTopOf="@+id/graduacionTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,14 +24,14 @@
         android:id="@+id/graduacionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="16dp"
         android:text="%"
         android:textColor="#fff"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/nombreTextView" />
 
     <ImageView
         android:id="@+id/tragoImage"
@@ -42,75 +39,37 @@
         android:layout_height="150dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ingredientsTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/graduacionTextView"
-        app:layout_constraintVertical_bias="0.065"
         app:srcCompat="@drawable/ic_champagne" />
 
     <TextView
         android:id="@+id/ingredientsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="Ingredientes"
         android:textColor="#fff"
         android:textSize="30sp"
         app:fontFamily="@font/cabin_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/ingredientes"
-        android:layout_width="182dp"
-        android:layout_height="290dp"
-        android:layout_gravity="right"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="364dp"
-        android:layout_marginEnd="192dp"
-        android:layout_marginRight="192dp"
-        android:layout_marginBottom="8dp"
-        android:drawSelectorOnTop="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ListView
-        android:id="@+id/cantidad"
-        android:layout_width="124dp"
-        android:layout_height="337dp"
-        android:layout_gravity="right"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="364dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:drawSelectorOnTop="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.65"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/unidad"
-        android:layout_width="109dp"
-        android:layout_height="297dp"
-        android:layout_gravity="right"
-        android:layout_marginTop="364dp"
-        android:drawSelectorOnTop="false"
-        android:textFilterEnabled="false"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ingredientesRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ingredientsTitle" />
 
 </android.support.constraint.ConstraintLayout>
