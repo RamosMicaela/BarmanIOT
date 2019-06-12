@@ -1,6 +1,7 @@
 package com.example.myapplication.model;
 
 import android.graphics.drawable.Drawable;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -28,4 +29,5 @@ public class Trago {
 
     public int getmIcon() { return mIcon; }
 
+    public ArrayList<Ingrediente> getIngredientes() { return mIngredientes; }
 }

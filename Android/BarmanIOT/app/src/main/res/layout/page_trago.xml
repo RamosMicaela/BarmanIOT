@@ -50,26 +50,67 @@
         app:layout_constraintVertical_bias="0.065"
         app:srcCompat="@drawable/ic_champagne" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="426dp"
-        android:layout_height="336dp"
-        android:layout_marginTop="321dp"
-        app:cardBackgroundColor="@color/colorAccent"
+    <TextView
+        android:id="@+id/ingredientsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="308dp"
+        android:gravity="center"
+        android:text="Ingredientes"
+        android:textColor="#fff"
+        android:textSize="30sp"
+        app:fontFamily="@font/cabin_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/ingredientes"
+        android:layout_width="182dp"
+        android:layout_height="290dp"
+        android:layout_gravity="right"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="192dp"
+        android:layout_marginRight="192dp"
+        android:layout_marginBottom="8dp"
+        android:drawSelectorOnTop="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/ingredientsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Ingredientes"
-            android:textColor="#000"
-            android:textSize="30sp"
-            app:fontFamily="@font/cabin_medium" />
-    </android.support.v7.widget.CardView>
+    <ListView
+        android:id="@+id/cantidad"
+        android:layout_width="124dp"
+        android:layout_height="337dp"
+        android:layout_gravity="right"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:drawSelectorOnTop="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/unidad"
+        android:layout_width="109dp"
+        android:layout_height="297dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="364dp"
+        android:drawSelectorOnTop="false"
+        android:textFilterEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

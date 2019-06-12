@@ -14,7 +14,7 @@
         android:id="@+id/tragos"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="300dp"
-        android:layout_height="106dp"
+        android:layout_height="55dp"
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="463dp"
@@ -37,13 +37,13 @@
         android:id="@+id/imageView"
         android:layout_width="89dp"
         android:layout_height="91dp"
-        android:layout_marginTop="325dp"
-        android:layout_marginBottom="205dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.686"
         app:srcCompat="@drawable/emoji" />
 
     <TextView
