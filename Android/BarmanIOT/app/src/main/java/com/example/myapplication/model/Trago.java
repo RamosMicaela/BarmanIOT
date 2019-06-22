@@ -11,6 +11,10 @@ public class Trago {
     private int mIcon;
     private ArrayList<Ingrediente> mIngredientes;
 
+    public Trago() {
+        this.mIngredientes = new ArrayList<>();
+    }
+
     public Trago(String mNombre, float mGraduacion, int mIcon, ArrayList<Ingrediente> ingredientes) {
         this.mIngredientes = new ArrayList<>();
         this.mNombre = mNombre;

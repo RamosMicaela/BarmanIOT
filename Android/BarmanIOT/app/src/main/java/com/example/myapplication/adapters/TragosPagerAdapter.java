@@ -33,6 +33,7 @@ public class TragosPagerAdapter extends PagerAdapter {
     private ArrayList<String> sIngredientes;
     private ArrayList<String> sIngredientesCantidad;
     private ArrayList<String> sIngredientesUnidad;
+    private int actualPosition;
 
     public TragosPagerAdapter(Context context) {
         mContext = context;
@@ -110,9 +111,6 @@ public class TragosPagerAdapter extends PagerAdapter {
         ((TextView)layout.findViewById(R.id.nombreTextView)).setText(mTragos.get(position).getNombre());
         ((TextView)layout.findViewById(R.id.graduacionTextView)).setText(String.format(Locale.getDefault(),"%.2f",mTragos.get(position).getGraduacion()));
         ((ImageView)layout.findViewById(R.id.tragoImage)).setImageResource(mTragos.get(position).getmIcon());
-//        final ListView lv = layout.findViewById(R.id.ingredientes);
-//        final ListView lvCantidad = layout.findViewById(R.id.cantidad);
-//        final ListView lvUnidad = layout.findViewById(R.id.unidad);
         RecyclerView recyclerView = (RecyclerView)layout.findViewById(R.id.ingredientesRecyclerView);
         ArrayList<Ingrediente> ingredientes = mTragos.get(position).getIngredientes();
 
@@ -132,15 +130,8 @@ public class TragosPagerAdapter extends PagerAdapter {
         IngredientesRecyclerViewAdapter adapter = new IngredientesRecyclerViewAdapter(ingredientes);
         recyclerView.setAdapter(adapter);
 
-//        ingNombreAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientes);
-//        ingCantidadAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientesCantidad);
-//        ingUnidadAdapter  = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, sIngredientesUnidad);
-
-//        lv.setAdapter(ingNombreAdapter);
-//        lvCantidad.setAdapter(ingCantidadAdapter);
-//        lvUnidad.setAdapter(ingUnidadAdapter);
-
         collection.addView(layout);
+        actualPosition = position;
         return layout;
     }
 
@@ -155,4 +146,7 @@ public class TragosPagerAdapter extends PagerAdapter {
         return mTragos.get(position).getNombre();
     }
 
+    public Trago getTrago(int position) {
+        return mTragos.get(position);
+    }
 }
