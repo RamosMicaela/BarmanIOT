@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.view.View;
 
 import com.example.myapplication.adapters.TragosPagerAdapter;
 import com.example.myapplication.model.Trago;
@@ -131,10 +132,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
         if(anguloEnY >= 60 && anguloEnY <= 100) {
             //swipe a la derecha
-            System.out.println("Swipe a la derecha");
+            viewPager.arrowScroll(View.FOCUS_RIGHT);
         } else if(anguloEnY <= -60 && anguloEnY >= -100) {
             //swipe a la izquierda
-            System.out.println("Swipe a la izquierda");
+            viewPager.arrowScroll(View.FOCUS_LEFT);
         }
 
     }

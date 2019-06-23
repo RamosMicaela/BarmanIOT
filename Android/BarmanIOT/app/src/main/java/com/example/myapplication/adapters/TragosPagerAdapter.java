@@ -52,27 +52,27 @@ public class TragosPagerAdapter extends PagerAdapter {
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Hielo", 0, "Cantidad Necesaria"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         mIngredientes.add(new Ingrediente("Vodka", 30, "%"));
         mIngredientes.add(new Ingrediente("Jugo de naranja", 70, "%"));
         trago = new Trago("Destornillador", .3f, R.drawable.ic_destornillador, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Gancia", 80, "Cantidad Necesaria"));
+        mIngredientes.add(new Ingrediente("Gancia", 80, "%"));
         mIngredientes.add(new Ingrediente("Sprite", 20, "%"));
-        mIngredientes.add(new Ingrediente("Limón", 0, "Cantidad Necesaria"));
-        mIngredientes.add(new Ingrediente("Azúcar", 0, "Cantidad Necesaria"));
-        mIngredientes.add(new Ingrediente("Hielo", 0, "Cantidad Necesaria"));
+        mIngredientes.add(new Ingrediente("Limón", 0, "C/N"));
+        mIngredientes.add(new Ingrediente("Azúcar", 0, "C/N"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         trago = new Trago("Gancia con Sprite", .4f, R.drawable.ic_gancia, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
 
         mIngredientes.add(new Ingrediente("Coca Cola", 20, "%"));
         mIngredientes.add(new Ingrediente("Ron dorado", 20, "%"));
-        mIngredientes.add(new Ingrediente("Rodajas de lima", 2, "Unidades"));
+        mIngredientes.add(new Ingrediente("Rodajas de lima", 2, "Un."));
         mIngredientes.add(new Ingrediente("Jugo", 0.5, "Lima"));
-        mIngredientes.add(new Ingrediente("Hielo", 0, "Cantidad Necesaria"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         trago = new Trago("Cuba Libre", .2f, R.drawable.ic_wisky, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
@@ -82,8 +82,8 @@ public class TragosPagerAdapter extends PagerAdapter {
         mIngredientes.add(new Ingrediente("Crema de coco", 1, "oz"));
         mIngredientes.add(new Ingrediente("Agua mineral", 2, "oz"));
         mIngredientes.add(new Ingrediente("Banana", 1, "Unidad"));
-        mIngredientes.add(new Ingrediente("Granadina", 0, "A gusto"));
-        mIngredientes.add(new Ingrediente("Hielo", 0, "A gusto"));
+        mIngredientes.add(new Ingrediente("Granadina", 0, "C/N"));
+        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         trago = new Trago("Banana Mama", .1f, R.drawable.ic_daikiri, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
@@ -109,7 +109,6 @@ public class TragosPagerAdapter extends PagerAdapter {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.page_trago, collection, false);
         ((TextView)layout.findViewById(R.id.nombreTextView)).setText(mTragos.get(position).getNombre());
-        ((TextView)layout.findViewById(R.id.graduacionTextView)).setText(String.format(Locale.getDefault(),"%.2f",mTragos.get(position).getGraduacion()));
         ((ImageView)layout.findViewById(R.id.tragoImage)).setImageResource(mTragos.get(position).getmIcon());
         RecyclerView recyclerView = (RecyclerView)layout.findViewById(R.id.ingredientesRecyclerView);
         ArrayList<Ingrediente> ingredientes = mTragos.get(position).getIngredientes();
