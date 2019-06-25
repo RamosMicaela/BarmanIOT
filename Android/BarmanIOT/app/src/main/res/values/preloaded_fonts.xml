@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/actor</item>
+        <item>@font/andika</item>
+        <item>@font/cabin</item>
+        <item>@font/cabin_condensed_medium</item>
+        <item>@font/cabin_medium</item>
+        <item>@font/cabin_semibold</item>
+        <item>@font/prompt_thin</item>
+    </array>
+</resources>

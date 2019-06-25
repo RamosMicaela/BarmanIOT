@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -23,45 +24,30 @@ import android.widget.ImageView;
  */
 
 public class MainActivity extends AppCompatActivity {
-    AnimationDrawable animation;
+    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private static final int REQUEST_ENABLE_BT = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Button probar = (Button) findViewById(R.id.probar);
+    }
 
-        ImageView animation1 = (ImageView)findViewById(R.id.animation);
-        animation1.setBackgroundResource(R.drawable.animation);
-        animation = (AnimationDrawable) animation1.getBackground();
+    public void onClickPingButton(View v) {
 
-        probar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialog.setTitle("Alert");
-                alertDialog.setMessage("Alert message to be shown");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-            }
-        });
     }
 
     public void onClickTragos(View v){
-        Intent i = new Intent(this, TragosActivity.class);
-        startActivity(i);
-    }
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        animation.start();
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+
+        if(mBluetoothAdapter.isEnabled()) {
+            Intent i = new Intent(this, TragosActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override

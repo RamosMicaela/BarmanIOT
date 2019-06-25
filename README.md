@@ -14,7 +14,7 @@ Además, gracias al identificador del vaso vas a poder saber el alcohol en sangr
 # Sensores:
   - Sensor de Temperatura
   - Balanza
-  - Boton
+  - Botón
   
 # Actuadores: 
   - Indicador led
