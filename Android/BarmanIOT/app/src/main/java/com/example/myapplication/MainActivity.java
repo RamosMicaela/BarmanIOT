@@ -24,9 +24,6 @@ import android.widget.ImageView;
  */
 
 public class MainActivity extends AppCompatActivity {
-    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private static final int REQUEST_ENABLE_BT = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClickTragos(View v){
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
-
-        if(mBluetoothAdapter.isEnabled()) {
-            Intent i = new Intent(this, TragosActivity.class);
-            startActivity(i);
-        }
+    public void onClickTragos(View v) {
+        Intent i = new Intent(this, TragosActivity.class);
+        startActivity(i);
     }
 
     @Override
