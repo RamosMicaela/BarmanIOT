@@ -23,6 +23,13 @@
 #define VASO_2 1
 #define TRUE 1
 #define FALSE 0
+#define SUCAS_LECCHI 0
+#define FERNET_CON_COCA 1
+#define DESTORNILLADOR 2
+#define GANCIA_CON_SPRITE 3
+#define CUBA_LIBRE 4
+#define BANANA_MAMA 5
+#define CANCELAR_TRAGO 6
 
 //Structs
 typedef struct {
@@ -48,6 +55,7 @@ float escala = 437.52;
 float objetivo = 0;
 float total_vaso[2];
 float peso_vaso[2];
+float ya_cargado = 0.0f;
 int encendido = 0;
 float valorAnt=0.0;
 float porcentaje_orden = 0.0;
@@ -214,11 +222,13 @@ void inicioBebidas(){
   t_ingrediente ingr;
   //SUCAS LECCHI
   strcpy(bebida.nombre,"Sucas Lecchi\0");
+  bebida.cantidad = 1;
   ingr = crearIngrediente( "Agua\0", 1.0f);
   bebida.ingredientes[0]= ingr;
   bebidas[0] = bebida;
   //Fernet con Coca
   strcpy(bebida.nombre,"Fernet con Coca\0");
+  bebida.cantidad = 2;
   ingr = crearIngrediente ("Fernet\0", 0.3f);
   bebida.ingredientes[0]= ingr;
   ingr = crearIngrediente ("Coca\0", 0.7f);
@@ -226,6 +236,7 @@ void inicioBebidas(){
   bebidas[1] = bebida;
   //Destornillador
   strcpy(bebida.nombre,"Destornillador\0");
+  bebida.cantidad = 2;
   ingr = crearIngrediente ("Vodka\0", 0.3f);
   bebida.ingredientes[0]= ingr;
   ingr = crearIngrediente ("Jugo de Naranja\0", 0.7f);
@@ -233,6 +244,7 @@ void inicioBebidas(){
   bebidas[2] = bebida;
   //Gancia con Sprite
   strcpy(bebida.nombre,"Gancia con Sprite\0");
+  bebida.cantidad = 2;
   ingr = crearIngrediente ("Gancia\0", 0.2f);
   bebida.ingredientes[0]= ingr;
   ingr = crearIngrediente ("Sprite\0", 0.8f);
@@ -240,6 +252,7 @@ void inicioBebidas(){
   bebidas[3] = bebida;
   //Cuba Libre
   strcpy(bebida.nombre,"Cuba Libre\0");
+  bebida.cantidad = 3;
   ingr = crearIngrediente ("Ron Dorado\0", 0.22f);
   bebida.ingredientes[0]= ingr;
   ingr = crearIngrediente ("Coca Cola\0", 0.73f);
@@ -249,6 +262,7 @@ void inicioBebidas(){
   bebidas[4] = bebida;
   //Banana Mama
   strcpy(bebida.nombre,"Banana Mama\0");
+  bebida.cantidad = 5;
   ingr = crearIngrediente ("Licor de Banana\0", 0.16f);
   bebida.ingredientes[0]= ingr;
   ingr = crearIngrediente ("Ron Dorado\0", 0.08f);
