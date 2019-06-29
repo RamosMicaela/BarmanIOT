@@ -11,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.myapplication.adapters.TragosPagerAdapter;
 import com.example.myapplication.model.Trago;
@@ -18,18 +19,20 @@ import com.example.myapplication.model.Trago;
 public class TragosActivity extends AppCompatActivity implements SensorEventListener {
     // Variables de sensores
     private SensorManager adminSensores;
-    private static final int UMBRAL_SACUDIDA = 200;
+    private static final int UMBRAL_SACUDIDA = 350;
     private static final int UMBRAL_ACTUALIZACION = 500;
     private long tiempoUltimaActualizacion;
     private float ultimoX;
     private float ultimoY;
     private float ultimoZ;
-    private Boolean isFirstTime = true;
+    private Boolean isFirstTime = true, hasSwiped = false;
     AlertDialog dialog;
 
     private TragosPagerAdapter tragosAdapter;
     private ViewPager viewPager;
     private Trago selectedTrago = new Trago();
+
+    private TextView TxtPitch, TxtRoll, TxtYaw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,11 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         viewPager = (ViewPager) findViewById(R.id.tragos_view_pager);
         tragosAdapter = new TragosPagerAdapter(this);
         viewPager.setAdapter(tragosAdapter);
+
+//        TxtPitch = (TextView)findViewById(R.id.textPitch);
+//        TxtRoll = (TextView)findViewById(R.id.textRoll);
+//        TxtYaw = (TextView)findViewById(R.id.textYaw);
+
         adminSensores = (SensorManager) getSystemService(SENSOR_SERVICE);
         inicializarSensores();
     }
@@ -80,13 +88,13 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private void inicializarSensores() {
         adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
-        adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
+        adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void pararSensores() {
         adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_PROXIMITY));
-        adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ORIENTATION));
+        adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR));
     }
 
     private void getShake(SensorEvent event) {
@@ -128,14 +136,32 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     }
 
     private void swipeTragos(SensorEvent event) {
-        float anguloEnY = (float) (event.values[1] * (180/Math.PI));
+//        float pitch = event.values[0];
+//        float roll = event.values[1];
+//        float yaw = event.values[2];
+//        TxtPitch.setText("Pitch: "+pitch);
+//        TxtRoll.setText("Roll: "+roll);
+//        TxtYaw.setText("Yaw: "+yaw);
 
-        if(anguloEnY >= 60 && anguloEnY <= 100) {
+
+        float anguloEnY = event.values[0];
+
+        if(anguloEnY >= 0.3 && anguloEnY <= 0.5) {
             //swipe a la derecha
-            viewPager.arrowScroll(View.FOCUS_RIGHT);
-        } else if(anguloEnY <= -60 && anguloEnY >= -100) {
+            if(!hasSwiped) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                //viewPager.arrowScroll(View.FOCUS_RIGHT);
+                hasSwiped = true;
+            }
+        } else if(anguloEnY <= -0.3 && anguloEnY >= -0.5) {
             //swipe a la izquierda
-            viewPager.arrowScroll(View.FOCUS_LEFT);
+            if(!hasSwiped) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
+                //viewPager.arrowScroll(View.FOCUS_LEFT);
+                hasSwiped = true;
+            }
+        }else if ( anguloEnY > -0.2 && anguloEnY < 0.2){
+            hasSwiped = false;
         }
 
     }
@@ -154,7 +180,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                     getProximity(event);
                     break;
 
-                case Sensor.TYPE_ORIENTATION:
+                case Sensor.TYPE_ROTATION_VECTOR:
                     swipeTragos(event);
                     break;
             }
