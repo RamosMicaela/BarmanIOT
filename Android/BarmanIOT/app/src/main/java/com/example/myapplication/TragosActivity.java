@@ -40,7 +40,7 @@ import java.util.UUID;
 public class TragosActivity extends AppCompatActivity implements SensorEventListener {
     // Variables de sensores
     private SensorManager adminSensores;
-    private static final int UMBRAL_SACUDIDA = 350;
+    private static final int UMBRAL_SACUDIDA = 300;
     private static final int UMBRAL_ACTUALIZACION = 500;
     private long tiempoUltimaActualizacion;
     private float ultimoX;
@@ -51,9 +51,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
     private TragosPagerAdapter tragosAdapter;
     private ViewPager viewPager;
-    private Trago selectedTrago = new Trago();
-
-    private TextView TxtPitch, TxtRoll, TxtYaw;
+    private Trago selectedTrago;
 
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private static final int REQUEST_ENABLE_BT = 1;
@@ -97,10 +95,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         viewPager = (ViewPager) findViewById(R.id.tragos_view_pager);
         tragosAdapter = new TragosPagerAdapter(this);
         viewPager.setAdapter(tragosAdapter);
-
-//        TxtPitch = (TextView)findViewById(R.id.textPitch);
-//        TxtRoll = (TextView)findViewById(R.id.textRoll);
-//        TxtYaw = (TextView)findViewById(R.id.textYaw);
 
         adminSensores = (SensorManager) getSystemService(SENSOR_SERVICE);
         inicializarSensores();
@@ -158,7 +152,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             }
         }
 
-
         //se definen un broadcastReceiver que captura el broadcast del SO cuando captura los siguientes eventos:
         IntentFilter filter = new IntentFilter();
 
@@ -204,8 +197,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
             velocidad = Math.abs(aceleracionActual - aceleracionAnterior) / diferenciaDeTiempo * 10000;
 
-            if (velocidad > UMBRAL_SACUDIDA) {
+            if (velocidad > UMBRAL_SACUDIDA && this.selectedTrago == null) {
+                this.selectedTrago = new Trago();
                 this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
+                mConnectedThread.write(String.valueOf(viewPager.getCurrentItem()));
             }
 
             this.ultimoX = x;
@@ -217,6 +212,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private void getProximity(SensorEvent event) {
         if (!this.isFirstTime && event.values[0] < 7 && this.selectedTrago != null) {
             // Cancelar trago
+            mConnectedThread.write("6");
             dialog.show();
             this.selectedTrago =  null;
         }
@@ -224,28 +220,18 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     }
 
     private void swipeTragos(SensorEvent event) {
-//        float pitch = event.values[0];
-//        float roll = event.values[1];
-//        float yaw = event.values[2];
-//        TxtPitch.setText("Pitch: "+pitch);
-//        TxtRoll.setText("Roll: "+roll);
-//        TxtYaw.setText("Yaw: "+yaw);
-
-
         float anguloEnY = event.values[0];
 
         if(anguloEnY >= 0.3 && anguloEnY <= 0.5) {
             //swipe a la derecha
             if(!hasSwiped) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-                //viewPager.arrowScroll(View.FOCUS_RIGHT);
                 hasSwiped = true;
             }
         } else if(anguloEnY <= -0.3 && anguloEnY >= -0.5) {
             //swipe a la izquierda
             if(!hasSwiped) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
-                //viewPager.arrowScroll(View.FOCUS_LEFT);
                 hasSwiped = true;
             }
         }else if ( anguloEnY > -0.2 && anguloEnY < 0.2){
@@ -299,18 +285,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             pairDevice(btDevice);
 
         }
-        /*
-        if (bondedDevices == null || bondedDevices.size() == 0) {
-            builder.setMessage("No se encontraron dispositivos emparejados").setTitle("Ups");
-            btDialog = builder.create();
-            btDialog.show();
-        } else {
-            //BT = HC06
-            //MAC = 00:13:EF:00:B8:70
-            builder.setMessage("Se encontraron dispositivos emparejados").setTitle("Genial");
-            btDialog = builder.create();
-            btDialog.show();
-        }*/
     }
 
     private void pairDevice(BluetoothDevice device) {
@@ -398,13 +372,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                     // los datos de Arduino atraves del bluethoot
                     mConnectedThread = new ConnectedThread(btSocket);
                     mConnectedThread.start();
-
-                    //I send a character when resuming.beginning transmission to check device is connected
-                    //If it is not an exception will be thrown in the write method and finish() will be called
-                    mConnectedThread.write("50");
-
-
-
                 }  //si se detrecto un desaemparejamiento
                 else if (state == BluetoothDevice.BOND_NONE && prevState == BluetoothDevice.BOND_BONDED) {
                     showToast("No emparejado");

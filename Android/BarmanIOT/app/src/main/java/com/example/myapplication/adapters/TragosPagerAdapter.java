@@ -45,14 +45,12 @@ public class TragosPagerAdapter extends PagerAdapter {
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Hielo", 20, "%"));
         mIngredientes.add(new Ingrediente("Fernet", 20, "%"));
         mIngredientes.add(new Ingrediente("Coca Cola", 60, "%"));
         trago = new Trago("Fernet con Coca", .5f, R.drawable.ic_fernet, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         mIngredientes.add(new Ingrediente("Vodka", 30, "%"));
         mIngredientes.add(new Ingrediente("Jugo de naranja", 70, "%"));
         trago = new Trago("Destornillador", .3f, R.drawable.ic_destornillador, mIngredientes);
@@ -61,18 +59,14 @@ public class TragosPagerAdapter extends PagerAdapter {
 
         mIngredientes.add(new Ingrediente("Gancia", 80, "%"));
         mIngredientes.add(new Ingrediente("Sprite", 20, "%"));
-        mIngredientes.add(new Ingrediente("Limón", 0, "C/N"));
         mIngredientes.add(new Ingrediente("Azúcar", 0, "C/N"));
-        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         trago = new Trago("Gancia con Sprite", .4f, R.drawable.ic_gancia, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
 
         mIngredientes.add(new Ingrediente("Coca Cola", 20, "%"));
         mIngredientes.add(new Ingrediente("Ron dorado", 20, "%"));
-        mIngredientes.add(new Ingrediente("Rodajas de lima", 2, "Un."));
         mIngredientes.add(new Ingrediente("Jugo", 0.5, "Lima"));
-        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
         trago = new Trago("Cuba Libre", .2f, R.drawable.ic_wisky, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
@@ -81,9 +75,7 @@ public class TragosPagerAdapter extends PagerAdapter {
         mIngredientes.add(new Ingrediente("Jarabe de piña", 2, "oz"));
         mIngredientes.add(new Ingrediente("Crema de coco", 1, "oz"));
         mIngredientes.add(new Ingrediente("Agua mineral", 2, "oz"));
-        mIngredientes.add(new Ingrediente("Banana", 1, "Unidad"));
-        mIngredientes.add(new Ingrediente("Granadina", 0, "C/N"));
-        mIngredientes.add(new Ingrediente("Hielo", 0, "C/N"));
+        mIngredientes.add(new Ingrediente("Licor de banana", 1, ""));
         trago = new Trago("Banana Mama", .1f, R.drawable.ic_daikiri, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
