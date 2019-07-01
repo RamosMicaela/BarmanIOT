@@ -77,6 +77,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     };
 
     private BluetoothSocket btSocket = null;
+    private StringBuilder recDataString = new StringBuilder();
     private ConnectedThread mConnectedThread;
     Handler bluetoothIn;
     final int handlerState = 0;
@@ -102,22 +103,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         viewPager = (ViewPager) findViewById(R.id.tragos_view_pager);
         tragosAdapter = new TragosPagerAdapter(this);
         viewPager.setAdapter(tragosAdapter);
-
+        bluetoothIn = Handler_Msg_Hilo_Principal();
         adminSensores = (SensorManager) getSystemService(SENSOR_SERVICE);
         inicializarSensores();
     }
-
-   /*
-   Para probar funcion que completa los strings
-   public void onClickSelect (View v) {
-        this.selectedTrago = new Trago();
-        this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
-        String trago = buildStringToSend();
-
-        System.out.println("Este es el string que queda");
-        System.out.println(trago);
-    }
-    */
 
     @Override
     protected void onRestart() {
@@ -438,6 +427,29 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             return false;
         }
         return true;
+    }
+
+    //Handler que sirve que permite mostrar datos en el Layout al hilo secundario
+    private Handler Handler_Msg_Hilo_Principal ()
+    {
+        return new Handler() {
+            public void handleMessage(android.os.Message msg)
+            {
+                //si se recibio un msj del hilo secundario
+                if (msg.what == handlerState)
+                {
+                    //voy concatenando el msj
+                    String readMessage = (String) msg.obj;
+                    recDataString.append(readMessage);
+                    if(recDataString.equals("100")){
+                        dialog.show();
+                        selectedTrago =  null;
+                        recDataString.delete(0, recDataString.length());
+                    }
+                }
+            }
+        };
+
     }
 
     //******************************************** Hilo secundario del Activity **************************************
