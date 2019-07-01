@@ -51,6 +51,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     float easing = 0.01F;
 
     AlertDialog dialog;
+    AlertDialog dialogFinBebida;
 
     private TragosPagerAdapter tragosAdapter;
     private ViewPager viewPager;
@@ -99,6 +100,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Elegí otro trago").setTitle("Trago cancelado");
         dialog = builder.create();
+
+        AlertDialog.Builder builderFinBebida = new AlertDialog.Builder(this);
+        builderFinBebida.setMessage("Elegí otro trago").setTitle("Trago Finalizado");
+        dialogFinBebida = builderFinBebida.create();
 
         viewPager = (ViewPager) findViewById(R.id.tragos_view_pager);
         tragosAdapter = new TragosPagerAdapter(this);
@@ -442,7 +447,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                     String readMessage = (String) msg.obj;
                     recDataString.append(readMessage);
                     if(recDataString.equals("100")){
-                        dialog.show();
+                        dialogFinBebida.show();
                         selectedTrago =  null;
                         recDataString.delete(0, recDataString.length());
                     }
