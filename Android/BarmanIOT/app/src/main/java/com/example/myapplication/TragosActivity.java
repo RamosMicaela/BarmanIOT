@@ -22,6 +22,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,11 +48,15 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private float ultimoY;
     private float ultimoZ;
     private Boolean isFirstTime = true, hasSwiped = false;
+    float easing = 0.01F;
+
     AlertDialog dialog;
 
     private TragosPagerAdapter tragosAdapter;
     private ViewPager viewPager;
     private Trago selectedTrago;
+    private static final int MAX_CHARS_FOR_NAME = 16;
+
 
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private static final int REQUEST_ENABLE_BT = 1;
@@ -76,6 +81,8 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     Handler bluetoothIn;
     final int handlerState = 0;
 
+    Button selectButton;
+
     // SPP UUID service  - Funciona en la mayoria de los dispositivos
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -99,6 +106,18 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         adminSensores = (SensorManager) getSystemService(SENSOR_SERVICE);
         inicializarSensores();
     }
+
+   /*
+   Para probar funcion que completa los strings
+   public void onClickSelect (View v) {
+        this.selectedTrago = new Trago();
+        this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
+        String trago = buildStringToSend();
+
+        System.out.println("Este es el string que queda");
+        System.out.println(trago);
+    }
+    */
 
     @Override
     protected void onRestart() {
@@ -140,7 +159,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         } else {
             //si el celular soporta bluethoot, se determina si esta activado el bluethoot
             if (mBluetoothAdapter.isEnabled()) {
-                //se informa si esta habilitado
                 if (mBluetoothAdapter.isDiscovering()) {
                     // El Bluetooth ya está en modo discover, lo cancelamos para iniciarlo de nuevo
                     mBluetoothAdapter.cancelDiscovery();
@@ -155,27 +173,27 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         //se definen un broadcastReceiver que captura el broadcast del SO cuando captura los siguientes eventos:
         IntentFilter filter = new IntentFilter();
 
-        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED); //Cambia el estado del Bluethoot (Acrtivado /Desactivado)
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);  //Cambia el estado del Bluethoot (Acrtivado /Desactivado)
         filter.addAction(BluetoothDevice.ACTION_FOUND); //Se encuentra un dispositivo bluethoot al realizar una busqueda
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED); //Cuando se comienza una busqueda de bluethoot
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED); //cuando la busqueda de bluethoot finaliza
         filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED); //Cuando se empareja o desempareja el bluethoot
 
+        //se registra el handler que captura los broadcast anterirmente mencionados.
         registerReceiver(mPairReceiver, filter);
-        //se define (registra) el handler que captura los broadcast anterirmente mencionados.
         registerReceiver(bReciever, filter);
     }
 
     private void inicializarSensores() {
         adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
-        adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
+        adminSensores.registerListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_GRAVITY), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void pararSensores() {
         adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_PROXIMITY));
-        adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR));
+        adminSensores.unregisterListener(this, adminSensores.getDefaultSensor(Sensor.TYPE_GRAVITY));
     }
 
     private void getShake(SensorEvent event) {
@@ -200,7 +218,8 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             if (velocidad > UMBRAL_SACUDIDA && this.selectedTrago == null) {
                 this.selectedTrago = new Trago();
                 this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
-                mConnectedThread.write(String.valueOf(viewPager.getCurrentItem()));
+                String trago = buildStringToSend();
+                mConnectedThread.write(trago);
             }
 
             this.ultimoX = x;
@@ -212,7 +231,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private void getProximity(SensorEvent event) {
         if (!this.isFirstTime && event.values[0] < 7 && this.selectedTrago != null) {
             // Cancelar trago
-            mConnectedThread.write("6");
+            mConnectedThread.write("2");
             dialog.show();
             this.selectedTrago =  null;
         }
@@ -220,21 +239,21 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     }
 
     private void swipeTragos(SensorEvent event) {
-        float anguloEnY = event.values[0];
+        float x = event.values[0]; //Gravedad aplicada en el eje x del dispositivo
 
-        if(anguloEnY >= 0.3 && anguloEnY <= 0.5) {
+        if(x <= -4) {
             //swipe a la derecha
             if(!hasSwiped) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                 hasSwiped = true;
             }
-        } else if(anguloEnY <= -0.3 && anguloEnY >= -0.5) {
+        } else if(x >= 4) {
             //swipe a la izquierda
             if(!hasSwiped) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
                 hasSwiped = true;
             }
-        }else if ( anguloEnY > -0.2 && anguloEnY < 0.2){
+        }else if ( Math.abs(x) <= 4.0){
             hasSwiped = false;
         }
 
@@ -243,6 +262,36 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private String buildStringToSend() {
+        String name = completeString(this.selectedTrago.getNombre(), MAX_CHARS_FOR_NAME);
+        String ingredientes = "";
+
+        // Esto es complmetamente contra mi voluntad
+        for(int i = 0; i < this.selectedTrago.getIngredientes().size(); i++) {
+            double cantidad = this.selectedTrago.getIngredientes().get(i).getCantidad() / 100;
+
+            String ingName = completeString(this.selectedTrago.getIngredientes().get(i).getNombre(), MAX_CHARS_FOR_NAME);
+            String cant = cantidad < 1  && cantidad >= 0.1? '0' + String.valueOf((int)(100 * cantidad)) : cantidad < 0.1 ? "00" + String.valueOf((int)(100 * cantidad)) :
+                    String.valueOf((int)(100 * cantidad));
+
+            ingredientes += ingName + cant;
+        }
+
+        return "0" + name + ingredientes;
+    }
+
+    private String completeString(String string, int cantChars) {
+        // Y esto tambien
+            int cantActual = string.length();
+
+            while( cantActual < cantChars) {
+                string += '*';
+                cantActual = string.length();
+            }
+
+        return string;
     }
 
     @Override
@@ -259,9 +308,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                     getProximity(event);
                     break;
 
-                case Sensor.TYPE_ROTATION_VECTOR:
+                case Sensor.TYPE_GRAVITY:
                     swipeTragos(event);
                     break;
+
             }
         }
     }
@@ -272,10 +322,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     }
 
     public void  establishBluetoothconnection() {
-        Set<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
-        AlertDialog btDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         if (btDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
             //Si esta emparejado,quiere decir que se selecciono desemparjar y entonces se le desempareja
             unpairDevice(btDevice);
@@ -312,7 +358,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // Encuentra nuestra placa bluetooth
-
                 if(device.getAddress().equals("00:13:EF:00:B8:70")) {
                     btDevice = device;
                     establishBluetoothconnection();
@@ -326,49 +371,37 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private final BroadcastReceiver mPairReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            //Atraves del Intent obtengo el evento de Bluethoot que informo el broadcast del SO
+            //Atraves del Intent obtengo el evento de Bluetooth que informo el broadcast del SO
             String action = intent.getAction();
 
-            //si el SO detecto un emparejamiento o desemparjamiento de bulethoot
-            if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action))
-            {
-                //Obtengo los parametro, aplicando un Bundle, que me indica el estado del Bluethoot
+            //si el SO detecto un emparejamiento o desemparjamiento de buletooth
+            if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
+                //Obtengo los parametros, aplicando un Bundle, que me indica el estado del Bluethoot
                 final int state = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.ERROR);
                 final int prevState = intent.getIntExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.ERROR);
 
                 //se analiza si se puedo emparejar o no
-                if (state == BluetoothDevice.BOND_BONDED && prevState == BluetoothDevice.BOND_BONDING)
-                {
+                if (state == BluetoothDevice.BOND_BONDED && prevState == BluetoothDevice.BOND_BONDING) {
                     //Si se detecto que se puedo emparejar el bluethoot
                     showToast("Emparejado");
-
-                    String direccionBluethoot = btDevice.getAddress();
-                    try
-                    {
+                    try {
                         btSocket = createBluetoothSocket(btDevice);
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         showToast( "La creacción del Socket fallo");
                     }
                     // Establish the Bluetooth socket connection.
-                    try
-                    {
+                    try {
                         btSocket.connect();
                     }
-                    catch (IOException e)
-                    {
-                        try
-                        {
+                    catch (IOException e) {
+                        try {
                             btSocket.close();
-                        }
-                        catch (IOException e2)
-                        {
+                        } catch (IOException e2) {
                             //insert code to deal with this
                         }
                     }
 
-                    //Una establecida la conexion con el Hc05 se crea el hilo secundario, el cual va a recibir
+                    //Una establecida la conexion con el Hc06 se crea el hilo secundario, el cual va a recibir
                     // los datos de Arduino atraves del bluethoot
                     mConnectedThread = new ConnectedThread(btSocket);
                     mConnectedThread.start();
@@ -381,7 +414,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     };
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
     }
 
@@ -408,8 +440,8 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         return true;
     }
 
-    //******************************************** Hilo secundario del Activity**************************************
-    //*************************************** recibe los datos enviados por el HC05**********************************
+    //******************************************** Hilo secundario del Activity **************************************
+    //*************************************** recibe los datos enviados por el HC06 **********************************
 
     private class ConnectedThread extends Thread
     {
