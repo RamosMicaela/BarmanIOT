@@ -287,7 +287,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             int cantActual = string.length();
 
             while( cantActual < cantChars) {
-                string += '*';
+                string += ' ';
                 cantActual = string.length();
             }
 
