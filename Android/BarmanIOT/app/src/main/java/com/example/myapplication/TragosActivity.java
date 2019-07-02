@@ -264,13 +264,14 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
         // Esto es complmetamente contra mi voluntad
         for(int i = 0; i < this.selectedTrago.getIngredientes().size(); i++) {
-            double cantidad = this.selectedTrago.getIngredientes().get(i).getCantidad() / 100;
+            if (this.selectedTrago.getIngredientes().get(i).getUnidad().equals("%")){
+                double cantidad = this.selectedTrago.getIngredientes().get(i).getCantidad() / 100;
+                String ingName = completeString(this.selectedTrago.getIngredientes().get(i).getNombre(), MAX_CHARS_FOR_NAME);
+                String cant = cantidad < 1 && cantidad >= 0.1 ? '0' + String.valueOf((int) (100 * cantidad)) : cantidad < 0.1 ? "00" + String.valueOf((int) (100 * cantidad)) :
+                        String.valueOf((int) (100 * cantidad));
 
-            String ingName = completeString(this.selectedTrago.getIngredientes().get(i).getNombre(), MAX_CHARS_FOR_NAME);
-            String cant = cantidad < 1  && cantidad >= 0.1? '0' + String.valueOf((int)(100 * cantidad)) : cantidad < 0.1 ? "00" + String.valueOf((int)(100 * cantidad)) :
-                    String.valueOf((int)(100 * cantidad));
-
-            ingredientes += ingName + cant;
+                ingredientes += ingName + cant;
+            }
         }
 
         return "0" + name + ingredientes;
@@ -281,7 +282,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             int cantActual = string.length();
 
             while( cantActual < cantChars) {
-                string += ' ';
+                string += '*';
                 cantActual = string.length();
             }
 
@@ -446,7 +447,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                     //voy concatenando el msj
                     String readMessage = (String) msg.obj;
                     recDataString.append(readMessage);
-                    if(recDataString.equals("100")){
+                    if(recDataString.toString().equals("100")){
                         dialogFinBebida.show();
                         selectedTrago =  null;
                         recDataString.delete(0, recDataString.length());

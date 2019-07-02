@@ -45,8 +45,8 @@ public class TragosPagerAdapter extends PagerAdapter {
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Fernet", 20, "%"));
-        mIngredientes.add(new Ingrediente("Coca Cola", 60, "%"));
+        mIngredientes.add(new Ingrediente("Fernet", 30, "%"));
+        mIngredientes.add(new Ingrediente("Coca Cola", 70, "%"));
         trago = new Trago("Fernet con Coca", .5f, R.drawable.ic_fernet, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
@@ -64,18 +64,18 @@ public class TragosPagerAdapter extends PagerAdapter {
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Coca Cola", 20, "%"));
+        mIngredientes.add(new Ingrediente("Coca Cola", 80, "%"));
         mIngredientes.add(new Ingrediente("Ron dorado", 20, "%"));
         mIngredientes.add(new Ingrediente("Jugo", 0.5, "Lima"));
         trago = new Trago("Cuba Libre", .2f, R.drawable.ic_wisky, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
 
-        mIngredientes.add(new Ingrediente("Ron blanco", 2, "oz"));
-        mIngredientes.add(new Ingrediente("Jarabe de piña", 2, "oz"));
-        mIngredientes.add(new Ingrediente("Crema de coco", 1, "oz"));
-        mIngredientes.add(new Ingrediente("Agua mineral", 2, "oz"));
-        mIngredientes.add(new Ingrediente("Licor de banana", 1, ""));
+        mIngredientes.add(new Ingrediente("Licor de Banana", 16, "%"));
+        mIngredientes.add(new Ingrediente("Ron Dorado", 8, "%"));
+        mIngredientes.add(new Ingrediente("Ron Blanco", 25, "%"));
+        mIngredientes.add(new Ingrediente("Crema de Coco", 17, "%"));
+        mIngredientes.add(new Ingrediente("Jugo de Anana", 34, "%"));
         trago = new Trago("Banana Mama", .1f, R.drawable.ic_daikiri, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
