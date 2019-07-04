@@ -248,6 +248,12 @@ void loop() {
       lcd.print("  Sacaste el  ");
       lcd.setCursor(0,1);
       lcd.print("    vaso!    ");
+      delay(1000);
+      lcd.clear();
+      lcd.print("Prepare de nuevo");
+      delay(1000);
+      // ESCRIBIR "VUELVA A PREPARARLO"
+      estado = PREPARANDO_TRAGO;
     }
   } else if ( estado == CALIBRANDO  && !cancelarTrago()) {
     if( peso_vaso[vaso] == 0.0f){
@@ -260,7 +266,7 @@ void loop() {
          delay(1000);
       }
     } else {
-      if((vaso == VASO_1)?digitalRead(BOTON_1_PIN):digitalRead(BOTON_2_PIN)){
+      if( (vaso == VASO_1)?digitalRead(BOTON_1_PIN) == HIGH:digitalRead(BOTON_2_PIN) == HIGH){
         float peso_con_agua = balanza.get_value(10) / escala;
         if(peso_vaso[vaso] > peso_con_agua){
           lcd.clear();
@@ -290,7 +296,7 @@ void loop() {
       escrito = true;
       Serial.println("Pedí temperatura");
     }
-    if((vaso == VASO_1)?digitalRead(BOTON_1_PIN) == HIGH:digitalRead(BOTON_2_PIN) == HIGH){
+    if( (vaso == VASO_1)?digitalRead(BOTON_2_PIN) == HIGH:digitalRead(BOTON_1_PIN) == HIGH){
       Serial.println("Acercó el vaso");
       Serial.println(estado);
       estado = CONTROLANDO_TEMPERATURA;
@@ -349,7 +355,7 @@ boolean cancelarTrago(){
       estado = ESPERANDO_ORDEN;
       ya_cargado = 0.0f;
       vaso = NO_SELECCIONADO;
-      blue.flush();
+      escrito=false;
       return true;
     }
   }
