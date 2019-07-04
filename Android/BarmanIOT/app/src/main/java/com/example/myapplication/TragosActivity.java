@@ -48,7 +48,6 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private float ultimoY;
     private float ultimoZ;
     private Boolean isFirstTime = true, hasSwiped = false;
-    float easing = 0.01F;
 
     AlertDialog dialog;
     AlertDialog dialogFinBebida;
@@ -213,7 +212,9 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                 this.selectedTrago = new Trago();
                 this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
                 String trago = buildStringToSend();
-                mConnectedThread.write(trago);
+                if(mConnectedThread != null) {
+                    mConnectedThread.write(trago);
+                }
             }
 
             this.ultimoX = x;
@@ -223,7 +224,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     }
 
     private void getProximity(SensorEvent event) {
-        if (!this.isFirstTime && event.values[0] < 7 && this.selectedTrago != null) {
+        if (!this.isFirstTime && event.values[0] < 3 && this.selectedTrago != null) {
             // Cancelar trago
             mConnectedThread.write("2");
             dialog.show();
@@ -287,6 +288,19 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             }
 
         return string;
+    }
+
+    public void onClickRecalibrate(View v) {
+        AlertDialog dialogRecalibrate;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Recalibra tu vaso").setTitle("Recalibrar");
+        dialogRecalibrate = builder.create();
+
+        if(mConnectedThread != null) {
+            dialogRecalibrate.show();
+            mConnectedThread.write("1");
+        }
     }
 
     @Override
@@ -403,6 +417,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                 }  //si se detrecto un desaemparejamiento
                 else if (state == BluetoothDevice.BOND_NONE && prevState == BluetoothDevice.BOND_BONDED) {
                     showToast("No emparejado");
+                    pairDevice(btDevice);
                 }
             }
         }

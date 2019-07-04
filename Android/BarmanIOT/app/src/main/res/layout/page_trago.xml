@@ -38,15 +38,42 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ingredientesRecyclerView"
         android:layout_width="0dp"
-        android:layout_height="333dp"
+        android:layout_height="207dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="308dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/recalibrate"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:onClick="onClickRecalibrate"
+        android:layout_width="302dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="48dp"
+        android:background="#68FFFFFF"
+        android:text="Recalibrar vaso"
+        android:textAppearance="@android:style/TextAppearance.Widget.TextView"
+        android:textColor="#fff"
+        android:textSize="24sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.998" />
 
     <!--
         Prueba de la funcion para completar caracteres
@@ -68,4 +95,4 @@
          app:layout_constraintStart_toStartOf="parent"
          app:layout_constraintTop_toTopOf="parent" />
      -->
- </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
