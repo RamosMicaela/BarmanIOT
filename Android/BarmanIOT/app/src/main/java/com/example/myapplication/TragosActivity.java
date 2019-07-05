@@ -41,7 +41,7 @@ import java.util.UUID;
 public class TragosActivity extends AppCompatActivity implements SensorEventListener {
     // Variables de sensores
     private SensorManager adminSensores;
-    private static final int UMBRAL_SACUDIDA = 300;
+    private static final int UMBRAL_SACUDIDA = 250;
     private static final int UMBRAL_ACTUALIZACION = 500;
     private long tiempoUltimaActualizacion;
     private float ultimoX;
@@ -210,10 +210,11 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
             if (velocidad > UMBRAL_SACUDIDA && this.selectedTrago == null) {
                 this.selectedTrago = new Trago();
-                this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
                 String trago = buildStringToSend();
                 if(mConnectedThread != null) {
+                    this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
                     mConnectedThread.write(trago);
+                    showToast("Trago seleccionado");
                 }
             }
 
@@ -226,9 +227,11 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private void getProximity(SensorEvent event) {
         if (!this.isFirstTime && event.values[0] < 3 && this.selectedTrago != null) {
             // Cancelar trago
-            mConnectedThread.write("2");
-            dialog.show();
-            this.selectedTrago =  null;
+            if(mConnectedThread != null) {
+                mConnectedThread.write("2");
+                this.selectedTrago =  null;
+                dialog.show();
+            }
         }
         this.isFirstTime = false;
     }
@@ -298,8 +301,8 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         dialogRecalibrate = builder.create();
 
         if(mConnectedThread != null) {
-            dialogRecalibrate.show();
             mConnectedThread.write("1");
+            dialogRecalibrate.show();
         }
     }
 
