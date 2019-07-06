@@ -210,9 +210,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
             if (velocidad > UMBRAL_SACUDIDA && this.selectedTrago == null) {
                 this.selectedTrago = new Trago();
+                int currentItem = viewPager.getCurrentItem();
+                this.selectedTrago = tragosAdapter.getTrago(currentItem);
                 String trago = buildStringToSend();
                 if(mConnectedThread != null) {
-                    this.selectedTrago = tragosAdapter.getTrago(viewPager.getCurrentItem());
                     mConnectedThread.write(trago);
                     showToast("Trago seleccionado");
                 }
