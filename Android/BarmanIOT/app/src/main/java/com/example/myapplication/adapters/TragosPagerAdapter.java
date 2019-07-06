@@ -60,7 +60,7 @@ public class TragosPagerAdapter extends PagerAdapter {
         mIngredientes.add(new Ingrediente("Gancia", 80, "%"));
         mIngredientes.add(new Ingrediente("Sprite", 20, "%"));
         mIngredientes.add(new Ingrediente("Azúcar", 0, "C/N"));
-        trago = new Trago("Gancia con Sprite", .4f, R.drawable.ic_gancia, mIngredientes);
+        trago = new Trago("Gancia c/ Sprite", .4f, R.drawable.ic_gancia, mIngredientes);
         mTragos.add(trago);
         mIngredientes.clear();
 

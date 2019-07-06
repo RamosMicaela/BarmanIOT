@@ -35,7 +35,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class TragosActivity extends AppCompatActivity implements SensorEventListener {
@@ -172,7 +171,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED); //cuando la busqueda de bluethoot finaliza
         filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED); //Cuando se empareja o desempareja el bluethoot
 
-        //se registra el handler que captura los broadcast anterirmente mencionados.
+        //se registra el handler que captura los broadcast anteriormente mencionados.
         registerReceiver(mPairReceiver, filter);
         registerReceiver(bReciever, filter);
     }
@@ -301,9 +300,11 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         builder.setMessage("Recalibra tu vaso").setTitle("Recalibrar");
         dialogRecalibrate = builder.create();
 
-        if(mConnectedThread != null) {
+        if(mConnectedThread != null && this.selectedTrago == null) {
             mConnectedThread.write("1");
             dialogRecalibrate.show();
+        } else {
+            showToast("Ya tenes un trago seleccionado!");
         }
     }
 
@@ -418,8 +419,8 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
                     // los datos de Arduino atraves del bluethoot
                     mConnectedThread = new ConnectedThread(btSocket);
                     mConnectedThread.start();
-                }  //si se detrecto un desaemparejamiento
-                else if (state == BluetoothDevice.BOND_NONE && prevState == BluetoothDevice.BOND_BONDED) {
+                }  else if (state == BluetoothDevice.BOND_NONE && prevState == BluetoothDevice.BOND_BONDED) {
+                    //si se detrecto un desaemparejamiento
                     showToast("No emparejado");
                     pairDevice(btDevice);
                 }
