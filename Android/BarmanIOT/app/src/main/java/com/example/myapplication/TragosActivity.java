@@ -21,6 +21,9 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private SensorManager adminSensores;
     private static final int UMBRAL_SACUDIDA = 250;
     private static final int UMBRAL_ACTUALIZACION = 500;
+    private static final int LIMITE_PROXIMIDAD = 3;
+    private static final int ACELERACION_SWIPE_DERECHA = -4;
+    private static final int ACELERACION_SWIPE_IZQUIERDA = 4;
     private long tiempoUltimaActualizacion;
     private float ultimoX;
     private float ultimoY;
@@ -30,6 +33,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     AlertDialog dialog;
     AlertDialog dialogFinBebida;
 
+    private static final int TO_INT_CONSTANT = 100;
+    private static final double MIN_VALUE_TO_INT = 0.1;
+    private static final int COMPLETE_UNIT = 1;
+
     private TragosPagerAdapter tragosAdapter;
     private ViewPager viewPager;
     private Trago selectedTrago;
@@ -38,6 +45,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private BluetoothData btDatos;
     private BluetoothWrite write;
     private BluetoothRead read;
+
+    private static final String RECALIBRATE_MESSAGE = "1";
+    private static final String TRAGO_FINALIZADO_MESSAGE = "100";
+    private static final String CANCEL_TRAGO_MESSAGE = "2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +153,9 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     }
 
     private void getProximity(SensorEvent event) {
-        if (!this.isFirstTime && event.values[0] < 3 && this.selectedTrago != null) {
+        if (!this.isFirstTime && event.values[0] < LIMITE_PROXIMIDAD && this.selectedTrago != null) {
             // Cancelar trago
-            write.write("2");
+            write.write(CANCEL_TRAGO_MESSAGE);
             this.selectedTrago =  null;
             dialog.show();
         }
@@ -154,19 +165,19 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
     private void swipeTragos(SensorEvent event) {
         float x = event.values[0]; //Gravedad aplicada en el eje x del dispositivo
 
-        if(x <= -4) {
+        if(x <= ACELERACION_SWIPE_DERECHA) {
             //swipe a la derecha
             if(!hasSwiped) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                 hasSwiped = true;
             }
-        } else if(x >= 4) {
+        } else if(x >= ACELERACION_SWIPE_IZQUIERDA) {
             //swipe a la izquierda
             if(!hasSwiped) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
                 hasSwiped = true;
             }
-        }else if ( Math.abs(x) <= 4.0){
+        }else if ( Math.abs(x) <= ACELERACION_SWIPE_IZQUIERDA){
             hasSwiped = false;
         }
 
@@ -184,10 +195,10 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         // Esto es complmetamente contra mi voluntad
         for(int i = 0; i < this.selectedTrago.getIngredientes().size(); i++) {
             if (this.selectedTrago.getIngredientes().get(i).getUnidad().equals("%")){
-                double cantidad = this.selectedTrago.getIngredientes().get(i).getCantidad() / 100;
+                double cantidad = this.selectedTrago.getIngredientes().get(i).getCantidad() / TO_INT_CONSTANT;
                 String ingName = completeString(this.selectedTrago.getIngredientes().get(i).getNombre(), MAX_CHARS_FOR_NAME);
-                String cant = cantidad < 1 && cantidad >= 0.1 ? '0' + String.valueOf((int) (100 * cantidad)) : cantidad < 0.1 ? "00" + String.valueOf((int) (100 * cantidad)) :
-                        String.valueOf((int) (100 * cantidad));
+                String cant = cantidad < COMPLETE_UNIT && cantidad >= MIN_VALUE_TO_INT ? '0' + String.valueOf((int) (TO_INT_CONSTANT * cantidad)) : cantidad < MIN_VALUE_TO_INT ? "00" + String.valueOf((int) (TO_INT_CONSTANT * cantidad)) :
+                        String.valueOf((int) (TO_INT_CONSTANT * cantidad));
 
                 ingredientes += ingName + cant;
             }
@@ -216,7 +227,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
         dialogRecalibrate = builder.create();
 
         if(this.selectedTrago == null) {
-            write.write("1");
+            write.write(RECALIBRATE_MESSAGE);
             dialogRecalibrate.show();
         } else {
             showToast("Ya tenes un trago seleccionado!");
@@ -263,7 +274,7 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
             String key = "recibido";
             Bundle bundle = msg.getData();
             String cad = bundle.getString(key);
-            if (cad != null && cad.equals("100"))
+            if (cad != null && cad.equals(TRAGO_FINALIZADO_MESSAGE))
             {
                 tragosActivity.dialogFinBebida.show();
                 tragosActivity.selectedTrago =  null;
