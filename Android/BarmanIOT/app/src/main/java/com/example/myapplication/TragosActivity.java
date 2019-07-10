@@ -259,14 +259,14 @@ public class TragosActivity extends AppCompatActivity implements SensorEventList
 
         @Override
         public void handleMessage(Message msg) {
-            TragosActivity myClass = myClassWeakReference.get();
+            TragosActivity tragosActivity = myClassWeakReference.get();
             String key = "recibido";
             Bundle bundle = msg.getData();
             String cad = bundle.getString(key);
             if (cad != null && cad.equals("100"))
             {
-                myClass.dialogFinBebida.show();
-                myClass.selectedTrago =  null;
+                tragosActivity.dialogFinBebida.show();
+                tragosActivity.selectedTrago =  null;
             }
         }
     }
